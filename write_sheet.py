@@ -9,7 +9,14 @@ from pathlib import Path
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-CREDENTIALS_FILE = Path(__file__).parent / "credentials.json"
+# Look in ~/.claude/ first, then fall back to script directory
+_CLAUDE_DIR = Path.home() / ".claude"
+CREDENTIALS_FILE = (
+    _CLAUDE_DIR / "credentials.json"
+    if (_CLAUDE_DIR / "credentials.json").exists()
+    else Path(__file__).parent / "credentials.json"
+)
+
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 SPREADSHEET_ID = "1XVkN3dyk1Xj-UNFj2kVRMe8APBDNTlCj2oY9car8Xzk"
 
