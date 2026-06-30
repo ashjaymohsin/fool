@@ -29,16 +29,16 @@ The user will give you one of:
    - `title` (optional): post title or group/community name
    - `post_link` (optional): URL of the post
 
-2. Convert to JSON and run `write_sheet.py` from the repo root:
+2. Convert to JSON and run the script:
 
 **Single entry:**
-```bash
-python write_sheet.py '{"platform": "reddit", "post": "...", "title": "...", "post_link": "..."}'
+```powershell
+python "$env:USERPROFILE\.claude\write_sheet.py" '{"platform": "reddit", "post": "...", "title": "...", "post_link": "..."}'
 ```
 
 **Multiple entries (batch):**
-```bash
-python write_sheet.py '[{"platform": "reddit", "post": "..."}, {"platform": "quora", "comment": "..."}]'
+```powershell
+python "$env:USERPROFILE\.claude\write_sheet.py" '[{"platform": "reddit", "post": "..."}, {"platform": "quora", "comment": "..."}]'
 ```
 
 3. The script will:
@@ -49,6 +49,6 @@ python write_sheet.py '[{"platform": "reddit", "post": "..."}, {"platform": "quo
 4. Report back to the user: which platform, which row, and what was written.
 
 ## Notes
-- `credentials.json` must exist in the repo root (gitignored)
+- `credentials.json` lives at `~/.claude/credentials.json` (never committed to git)
 - If dependencies are missing: `pip install google-auth google-auth-httplib2 google-api-python-client`
-- Always use batch mode when handling multiple entries — one `write_sheet.py` call with a JSON array
+- Always use batch mode when handling multiple entries — one script call with a JSON array
