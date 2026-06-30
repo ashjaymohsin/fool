@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>burrow × Fast FBI Apostille — Engagement Proposal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f4f1;
+    color: #1a1a1a;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+  }
+
+  .header {
+    background: #111111;
+    padding: 22px 36px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo { display: flex; align-items: center; gap: 6px; }
+  .logo-mark { color: #E85A00; font-size: 22px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+  .logo-text { color: #ffffff; font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+  .header-meta { text-align: right; color: #888; font-size: 9px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; line-height: 1.7; }
+
+  .hero { background: #1a1a1a; padding: 32px 36px 28px; border-bottom: 3px solid #E85A00; }
+  .hero-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #E85A00; margin-bottom: 10px; }
+  .hero-title { font-size: 30px; font-weight: 900; color: #ffffff; letter-spacing: -1px; line-height: 1.1; margin-bottom: 8px; }
+  .hero-title span { color: #E85A00; }
+  .hero-sub { font-size: 12px; color: #aaa; font-weight: 400; line-height: 1.5; max-width: 480px; }
+
+  .meta-row { background: #222222; padding: 10px 36px; display: flex; gap: 40px; }
+  .meta-label { font-size: 8px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #666; margin-bottom: 2px; }
+  .meta-value { font-size: 11px; font-weight: 600; color: #ddd; }
+
+  .body { padding: 28px 36px 24px; background: #ffffff; }
+
+  .thesis { background: #fff8f4; border-left: 3px solid #E85A00; padding: 14px 18px; margin-bottom: 24px; border-radius: 0 4px 4px 0; }
+  .thesis p { font-size: 12px; font-weight: 600; color: #1a1a1a; line-height: 1.6; }
+
+  .section-label { font-size: 8.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #E85A00; margin-bottom: 12px; }
+
+  .tiers { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+
+  .tier { border: 1.5px solid #e8e8e8; border-radius: 6px; overflow: hidden; }
+  .tier.featured { border-color: #E85A00; box-shadow: 0 0 0 1px #E85A00; }
+
+  .tier-header { padding: 14px 16px 12px; background: #f9f9f9; border-bottom: 1px solid #e8e8e8; }
+  .tier.featured .tier-header { background: #E85A00; }
+
+  .tier-name { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #888; margin-bottom: 4px; }
+  .tier.featured .tier-name { color: rgba(255,255,255,0.75); }
+
+  .tier-price { font-size: 26px; font-weight: 900; color: #1a1a1a; letter-spacing: -1px; line-height: 1; }
+  .tier.featured .tier-price { color: #ffffff; }
+  .tier-price span { font-size: 13px; font-weight: 500; color: #999; letter-spacing: 0; }
+  .tier.featured .tier-price span { color: rgba(255,255,255,0.7); }
+
+  .tier-tagline { font-size: 10px; font-weight: 500; color: #555; margin-top: 4px; }
+  .tier.featured .tier-tagline { color: rgba(255,255,255,0.85); }
+
+  .tier-body { padding: 14px 16px; }
+
+  .tier-feature { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 8px; font-size: 10.5px; color: #333; line-height: 1.4; }
+  .tier-feature:last-child { margin-bottom: 0; }
+
+  .check { width: 14px; height: 14px; border-radius: 50%; background: #E85A00; color: white; font-size: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-weight: 700; }
+  .check.grey { background: #e0e0e0; color: #999; }
+
+  .compare { margin-bottom: 24px; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+  .compare-table thead tr { background: #1a1a1a; color: #ffffff; }
+  .compare-table thead th { padding: 9px 12px; text-align: left; font-weight: 600; font-size: 9px; letter-spacing: 0.5px; }
+  .compare-table thead th:first-child { border-radius: 4px 0 0 0; }
+  .compare-table thead th:last-child { border-radius: 0 4px 0 0; text-align: center; }
+  .compare-table thead th:not(:first-child) { text-align: center; }
+  .compare-table tbody tr:nth-child(even) { background: #f9f9f9; }
+  .compare-table tbody td { padding: 8px 12px; border-bottom: 1px solid #efefef; color: #333; }
+  .compare-table tbody td:not(:first-child) { text-align: center; }
+  .dot-yes { color: #E85A00; font-size: 14px; font-weight: 700; }
+  .dot-no { color: #ccc; font-size: 14px; }
+  .cat-row td { background: #f0f0f0 !important; font-size: 8.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #777; padding: 6px 12px !important; }
+
+  .footer { background: #111111; padding: 16px 36px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { font-size: 9px; color: #555; line-height: 1.6; }
+  .footer-left strong { color: #888; }
+  .footer-cta { background: #E85A00; color: #ffffff; font-size: 10px; font-weight: 700; padding: 9px 20px; border-radius: 4px; letter-spacing: 0.3px; white-space: nowrap; }
+
+  .note { font-size: 9.5px; color: #888; margin-top: 16px; padding-top: 14px; border-top: 1px solid #eee; line-height: 1.6; }
+  .note strong { color: #555; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-mark">↗</div>
+    <div class="logo-text">burrow</div>
+  </div>
+  <div class="header-meta">Fast FBI Apostille &nbsp;·&nbsp; Engagement Proposal &nbsp;·&nbsp; June 2026</div>
+</div>
+
+<div class="hero">
+  <div class="hero-label">Platform Marketing Proposal</div>
+  <div class="hero-title">Choose your <span>entry point.</span></div>
+  <div class="hero-sub">Three tiers. Same strategy, same team, same communities. Scaled to where you want to start.</div>
+</div>
+
+<div class="meta-row">
+  <div class="meta-item"><div class="meta-label">Client</div><div class="meta-value">Fast FBI Apostille</div></div>
+  <div class="meta-item"><div class="meta-label">Prepared by</div><div class="meta-value">burrow · GrowthBurrow</div></div>
+  <div class="meta-item"><div class="meta-label">Date</div><div class="meta-value">June 2026</div></div>
+  <div class="meta-item"><div class="meta-label">Engagement type</div><div class="meta-value">Monthly Retainer</div></div>
+</div>
+
+<div class="body">
+
+  <div class="thesis">
+    <p>Apostille is a conversation problem, not a search problem. Every buyer is already inside an expat community asking real people what to do. We get Fast FBI Apostille named as the answer — country by country, thread by thread, on every platform they trust.</p>
+  </div>
+
+  <div class="section-label">Engagement Tiers</div>
+  <div class="tiers">
+
+    <div class="tier">
+      <div class="tier-header">
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">$375 <span>/ mo</span></div>
+        <div class="tier-tagline">The conversational lane, opened.</div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-feature"><div class="check">✓</div>Reddit — niche subs (expat, visa, country-specific)</div>
+        <div class="tier-feature"><div class="check">✓</div>Quora — process &amp; country threads, continuous seeding</div>
+        <div class="tier-feature"><div class="check">✓</div>AI Reddit lead monitor — live day 1</div>
+        <div class="tier-feature"><div class="check">✓</div>Spain &amp; Portugal focus (Tier 1 countries)</div>
+        <div class="tier-feature"><div class="check">✓</div>Daily tracking spreadsheet</div>
+        <div class="tier-feature"><div class="check grey">–</div>Facebook Groups</div>
+        <div class="tier-feature"><div class="check grey">–</div>Large subreddits (r/IWantOut, r/expats)</div>
+        <div class="tier-feature"><div class="check grey">–</div>AI DM outreach</div>
+        <div class="tier-feature"><div class="check grey">–</div>AEO content articles</div>
+        <div class="tier-feature"><div class="check grey">–</div>LinkedIn B2B layer</div>
+      </div>
+    </div>
+
+    <div class="tier featured">
+      <div class="tier-header">
+        <div class="tier-name">Growth</div>
+        <div class="tier-price">$650 <span>/ mo</span></div>
+        <div class="tier-tagline">Every community where buyers ask.</div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-feature"><div class="check">✓</div>Reddit — niche subs + large subs warming (r/IWantOut, r/expats, r/AmerExit)</div>
+        <div class="tier-feature"><div class="check">✓</div>Quora — continuous seeding across all use cases</div>
+        <div class="tier-feature"><div class="check">✓</div>Facebook Groups — Spainguru, Keep Olim, Nefesh B'Nefesh, Americans-in</div>
+        <div class="tier-feature"><div class="check">✓</div>AI Reddit lead monitor from day 1</div>
+        <div class="tier-feature"><div class="check">✓</div>AI DM outreach from month 2</div>
+        <div class="tier-feature"><div class="check">✓</div>Spain, Portugal, Israel &amp; Brazil (Tier 1 + 2)</div>
+        <div class="tier-feature"><div class="check">✓</div>Daily tracking spreadsheet</div>
+        <div class="tier-feature"><div class="check grey">–</div>AEO content articles</div>
+        <div class="tier-feature"><div class="check grey">–</div>LinkedIn B2B layer</div>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tier-header">
+        <div class="tier-name">Full Scope</div>
+        <div class="tier-price">$1,000 <span>/ mo</span></div>
+        <div class="tier-tagline">Every channel. Every country. Every use case.</div>
+      </div>
+      <div class="tier-body">
+        <div class="tier-feature"><div class="check">✓</div>Everything in Growth, plus:</div>
+        <div class="tier-feature"><div class="check">✓</div>Reddit large subs active from month 4 (r/IWantOut, r/expats, r/AmerExit, r/digitalnomad)</div>
+        <div class="tier-feature"><div class="check">✓</div>LinkedIn B2B layer from month 3</div>
+        <div class="tier-feature"><div class="check">✓</div>AEO articles — 2 per month</div>
+        <div class="tier-feature"><div class="check">✓</div>All 5 use case tracks</div>
+        <div class="tier-feature"><div class="check">✓</div>20+ destination countries</div>
+        <div class="tier-feature"><div class="check">✓</div>Weekly analytics feedback loop</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="compare">
+    <div class="section-label">What's included</div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width:46%">Feature</th>
+          <th>$375</th>
+          <th>$650</th>
+          <th>$1,000</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-row"><td colspan="4">Channels</td></tr>
+        <tr><td>Reddit — niche &amp; country subs</td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td></tr>
+        <tr><td>Reddit — large subs (r/IWantOut, r/expats)</td><td><span class="dot-no">●</span></td><td>warming only</td><td><span class="dot-yes">●</span></td></tr>
+        <tr><td>Quora</td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td></tr>
+        <tr><td>Facebook Groups (Spainguru, Keep Olim, NBN)</td><td><span class="dot-no">●</span></td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td></tr>
+        <tr><td>LinkedIn B2B layer</td><td><span class="dot-no">●</span></td><td><span class="dot-no">●</span></td><td><span class="dot-yes">●</span></td></tr>
+        <tr class="cat-row"><td colspan="4">Intelligence &amp; Outreach</td></tr>
+        <tr><td>AI Reddit lead monitor (real-time)</td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td></tr>
+        <tr><td>AI DM outreach to high-intent posters</td><td><span class="dot-no">●</span></td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td></tr>
+        <tr><td>AEO articles (2/month)</td><td><span class="dot-no">●</span></td><td><span class="dot-no">●</span></td><td><span class="dot-yes">●</span></td></tr>
+        <tr class="cat-row"><td colspan="4">Coverage</td></tr>
+        <tr><td>Countries covered</td><td>Spain, Portugal</td><td>+ Israel, Brazil</td><td>20+ countries</td></tr>
+        <tr><td>Use case tracks</td><td>Work abroad</td><td>Work + Study + Aliyah</td><td>All 5 tracks</td></tr>
+        <tr><td>Daily tracking spreadsheet</td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td><td><span class="dot-yes">●</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <strong>On Reddit account safety:</strong> We run a distributed pool of seasoned accounts — your work is spread across many operators, never concentrated on one. If Reddit runs an enforcement wave, the work continues the next day. All tiers include this structural hedge. &nbsp;·&nbsp; <strong>Minimum engagement:</strong> 3 months. &nbsp;·&nbsp; All tiers include a shared live tracker updated daily.
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <strong>burrow · GrowthBurrow</strong><br>
+    Prepared for Fast FBI Apostille · fastfbiapostille.com · June 2026
+  </div>
+  <div class="footer-cta">Ready to start → hello@growthburrow.com</div>
+</div>
+
+</body>
+</html>
