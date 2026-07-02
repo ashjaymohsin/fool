@@ -10,7 +10,7 @@ CREDENTIALS_FILE = Path(__file__).parent / "credentials.json"
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 SPREADSHEET_ID = "1XVkN3dyk1Xj-UNFj2kVRMe8APBDNTlCj2oY9car8Xzk"
 
-PLACEHOLDER_RE = re.compile(r"click\s+(this\s+)?box\s+to\s+view\s+note", re.IGNORECASE)
+PLACEHOLDER_RE = re.compile(r"click", re.IGNORECASE)
 
 
 def get_service():
@@ -55,7 +55,7 @@ def main():
             for c_idx, cell in enumerate(row.get("values", [])):
                 value = cell.get("formattedValue", "")
                 note = cell.get("note", "")
-                if note and (PLACEHOLDER_RE.search(value) or not value.strip()):
+                if note and PLACEHOLDER_RE.search(value):
                     cell_ref = f"'{sheet_name}'!{col_letter(c_idx)}{r_idx + 1}"
                     print(f"  Replacing {cell_ref}: '{value}' → note text ({len(note)} chars)")
                     updates.append({
