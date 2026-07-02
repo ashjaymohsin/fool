@@ -2,7 +2,6 @@
 """Write posts/comments to the correct platform sheet tab."""
 
 import json
-import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -14,7 +13,6 @@ CREDENTIALS_FILE = Path(__file__).parent / "credentials.json"
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 SPREADSHEET_ID = "1XVkN3dyk1Xj-UNFj2kVRMe8APBDNTlCj2oY9car8Xzk"
 
-# Map platform name → sheet tab name
 PLATFORM_MAP = {
     "reddit": "Reddit",
     "quora": "Quora",
@@ -25,10 +23,12 @@ PLATFORM_MAP = {
 }
 
 # Column layout per sheet (0-indexed)
-# Quora:          Date(0) Platform(1) Title(2) Post(3) Comment(4) PostLink(5) CommentLink(6) Notes(7)
-# All others:     Date(0) Title(1)    Post(2)  Comment(3) PostLink(4) CommentLink(5) Notes(6)
+# Quora:       Date(0) Platform(1) Title(2) Post(3) Comment(4) PostLink(5) CommentLink(6) Notes(7)
+# All others:  Date(0) Title(1)    Post(2)  Comment(3) PostLink(4) CommentLink(5) Notes(6)
 QUORA_COLS = {"date": 0, "title": 2, "post": 3, "comment": 4, "post_link": 5}
 DEFAULT_COLS = {"date": 0, "title": 1, "post": 2, "comment": 3, "post_link": 4}
+
+_sheet_id_cache: dict[str, int] = {}
 
 
 def get_service():
@@ -48,6 +48,14 @@ def col_letter(idx: int) -> str:
     return result
 
 
+def get_sheet_id(service, sheet_name: str) -> int:
+    if sheet_name not in _sheet_id_cache:
+        meta = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID).execute()
+        for s in meta["sheets"]:
+            _sheet_id_cache[s["properties"]["title"]] = s["properties"]["sheetId"]
+    return _sheet_id_cache[sheet_name]
+
+
 def find_first_empty_row(service, sheet_name: str) -> int:
     """Return the 1-indexed row number of the first row where the Date column is empty."""
     result = service.spreadsheets().values().get(
@@ -63,6 +71,30 @@ def find_first_empty_row(service, sheet_name: str) -> int:
     return len(values) + 1  # append after last row
 
 
+def format_row(service, sheet_name: str, row: int):
+    """Apply Calibri 10pt + wrap to the written row."""
+    sid = get_sheet_id(service, sheet_name)
+    service.spreadsheets().batchUpdate(
+        spreadsheetId=SPREADSHEET_ID,
+        body={"requests": [{
+            "repeatCell": {
+                "range": {
+                    "sheetId": sid,
+                    "startRowIndex": row - 1,
+                    "endRowIndex": row,
+                },
+                "cell": {
+                    "userEnteredFormat": {
+                        "textFormat": {"fontFamily": "Calibri", "fontSize": 10},
+                        "wrapStrategy": "WRAP",
+                    }
+                },
+                "fields": "userEnteredFormat(textFormat,wrapStrategy)",
+            }
+        }]},
+    ).execute()
+
+
 def write_entry(platform: str, post: str = "", comment: str = "",
                 title: str = "", post_link: str = ""):
     platform_key = platform.lower().strip()
@@ -75,7 +107,6 @@ def write_entry(platform: str, post: str = "", comment: str = "",
     row = find_first_empty_row(service, sheet_name)
     today = datetime.now().strftime("%d/%m/%y")
 
-    # Build the update requests as individual cell writes
     updates = []
 
     def add(col_idx, value):
@@ -99,19 +130,18 @@ def write_entry(platform: str, post: str = "", comment: str = "",
         print("Nothing to write.")
         return
 
-    body = {
-        "valueInputOption": "USER_ENTERED",
-        "data": updates,
-    }
     service.spreadsheets().values().batchUpdate(
-        spreadsheetId=SPREADSHEET_ID, body=body
+        spreadsheetId=SPREADSHEET_ID,
+        body={"valueInputOption": "USER_ENTERED", "data": updates},
     ).execute()
+
+    format_row(service, sheet_name, row)
+
     kind = "post" if post else "comment"
     print(f"[{sheet_name}] Row {row}: wrote {kind} ({today})")
 
 
 def process_batch(entries: list[dict]):
-    """Process a list of entry dicts."""
     for e in entries:
         write_entry(
             platform=e.get("platform", ""),
