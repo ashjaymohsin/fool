@@ -57,18 +57,18 @@ def get_sheet_id(service, sheet_name: str) -> int:
 
 
 def find_first_empty_row(service, sheet_name: str) -> int:
-    """Return the 1-indexed row number of the first row where the Date column is empty."""
+    """Return the 1-indexed row number after the last row that has any data."""
     result = service.spreadsheets().values().get(
         spreadsheetId=SPREADSHEET_ID,
-        range=f"'{sheet_name}'!A:A",
+        range=f"'{sheet_name}'",
     ).execute()
     values = result.get("values", [])
+    # Find last row index that has any non-empty cell
+    last_used = 0
     for i, row in enumerate(values):
-        if i == 0:
-            continue  # skip header
-        if not row or not row[0].strip():
-            return i + 1  # 1-indexed
-    return len(values) + 1  # append after last row
+        if any(cell.strip() for cell in row if isinstance(cell, str)):
+            last_used = i
+    return last_used + 2  # 1-indexed, +1 for next row after last used
 
 
 def format_row(service, sheet_name: str, row: int):
