@@ -14,7 +14,7 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 SPREADSHEET_ID = "1XVkN3dyk1Xj-UNFj2kVRMe8APBDNTlCj2oY9car8Xzk"
 
 PLATFORM_MAP = {
-    "reddit": "Reddit",
+    "reddit": "Reddit ",
     "quora": "Quora",
     "youtube": "YouTube",
     "facebook": "Facebook Groups",
