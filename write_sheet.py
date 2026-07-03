@@ -22,11 +22,13 @@ PLATFORM_MAP = {
     "twitter": "X Communities",
 }
 
-# Column layout per sheet (0-indexed)
-# Quora:       Date(0) Platform(1) Title(2) Post(3) Comment(4) PostLink(5) CommentLink(6) Notes(7)
-# All others:  Date(0) Title(1)    Post(2)  Comment(3) PostLink(4) CommentLink(5) Notes(6)
-QUORA_COLS = {"date": 0, "title": 2, "post": 3, "comment": 4, "post_link": 5}
-DEFAULT_COLS = {"date": 0, "title": 1, "post": 2, "comment": 3, "post_link": 4}
+# Column layout per sheet (0-indexed, based on actual sheet headers)
+# Reddit :  #(0) Date(1) Title(2) Posts(3) Subreddit(4) Comment1(5) Comment2(6) PostLink(7) CommentLink1(8)
+# Quora:    Date(0) Platform(1) Title(2) Post(3) Comment(4) PostLink(5) CommentLink(6) Notes(7)
+# Others:   Date(0) Title(1) Post(2) Comment(3) PostLink(4) CommentLink(5) Notes(6)
+REDDIT_COLS = {"date": 1, "title": 2, "post": 3, "subreddit": 4, "comment": 5, "post_link": 7, "comment_link": 8}
+QUORA_COLS  = {"date": 0, "title": 2, "post": 3, "comment": 4, "post_link": 5, "comment_link": 6}
+DEFAULT_COLS = {"date": 0, "title": 1, "post": 2, "comment": 3, "post_link": 4, "comment_link": 5}
 
 _sheet_id_cache: dict[str, int] = {}
 
@@ -63,12 +65,13 @@ def find_first_empty_row(service, sheet_name: str) -> int:
         range=f"'{sheet_name}'",
     ).execute()
     values = result.get("values", [])
-    # Find last row index that has any non-empty cell
     last_used = 0
     for i, row in enumerate(values):
-        if any(cell.strip() for cell in row if isinstance(cell, str)):
+        if i == 0:
+            continue  # skip header
+        if any(str(cell).strip() for cell in row if cell):
             last_used = i
-    return last_used + 2  # 1-indexed, +1 for next row after last used
+    return last_used + 2  # 1-indexed, next row after last used
 
 
 def format_row(service, sheet_name: str, row: int):
@@ -96,13 +99,20 @@ def format_row(service, sheet_name: str, row: int):
 
 
 def write_entry(platform: str, post: str = "", comment: str = "",
-                title: str = "", post_link: str = ""):
+                title: str = "", post_link: str = "", subreddit: str = "",
+                comment_link: str = ""):
     platform_key = platform.lower().strip()
     sheet_name = PLATFORM_MAP.get(platform_key)
     if not sheet_name:
         raise ValueError(f"Unknown platform: {platform}. Choose from: {', '.join(PLATFORM_MAP)}")
 
-    cols = QUORA_COLS if sheet_name == "Quora" else DEFAULT_COLS
+    if sheet_name == "Reddit ":
+        cols = REDDIT_COLS
+    elif sheet_name == "Quora":
+        cols = QUORA_COLS
+    else:
+        cols = DEFAULT_COLS
+
     service = get_service()
     row = find_first_empty_row(service, sheet_name)
     today = datetime.now().strftime("%d/%m/%y")
@@ -123,8 +133,12 @@ def write_entry(platform: str, post: str = "", comment: str = "",
         add(cols["post"], post)
     if comment:
         add(cols["comment"], comment)
-    if post_link:
+    if post_link and "post_link" in cols:
         add(cols["post_link"], post_link)
+    if comment_link and "comment_link" in cols:
+        add(cols["comment_link"], comment_link)
+    if subreddit and "subreddit" in cols:
+        add(cols["subreddit"], subreddit)
 
     if not updates:
         print("Nothing to write.")
@@ -149,6 +163,8 @@ def process_batch(entries: list[dict]):
             comment=e.get("comment", ""),
             title=e.get("title", ""),
             post_link=e.get("post_link", ""),
+            subreddit=e.get("subreddit", ""),
+            comment_link=e.get("comment_link", ""),
         )
 
 
