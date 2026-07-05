@@ -28,7 +28,7 @@ PLATFORM_MAP = {
 # Others:   Date(0) Title(1) Post(2) Comment(3) PostLink(4) CommentLink(5) Notes(6)
 REDDIT_COLS = {"date": 1, "title": 2, "post": 3, "subreddit": 4, "comment": 5, "post_link": 7, "comment_link": 8}
 QUORA_COLS  = {"date": 0, "title": 2, "post": 3, "comment": 4, "post_link": 5, "comment_link": 6}
-DEFAULT_COLS = {"date": 0, "title": 1, "post": 2, "comment": 3, "post_link": 4, "comment_link": 5}
+DEFAULT_COLS = {"date": 0, "title": 1, "group_link": 2, "post": 3, "comment": 4, "post_link": 5, "comment_link": 6}
 
 _sheet_id_cache: dict[str, int] = {}
 
@@ -100,7 +100,7 @@ def format_row(service, sheet_name: str, row: int):
 
 def write_entry(platform: str, post: str = "", comment: str = "",
                 title: str = "", post_link: str = "", subreddit: str = "",
-                comment_link: str = ""):
+                comment_link: str = "", group_link: str = ""):
     platform_key = platform.lower().strip()
     sheet_name = PLATFORM_MAP.get(platform_key)
     if not sheet_name:
@@ -139,6 +139,8 @@ def write_entry(platform: str, post: str = "", comment: str = "",
         add(cols["comment_link"], comment_link)
     if subreddit and "subreddit" in cols:
         add(cols["subreddit"], subreddit)
+    if group_link and "group_link" in cols:
+        add(cols["group_link"], group_link)
 
     if not updates:
         print("Nothing to write.")
@@ -165,6 +167,7 @@ def process_batch(entries: list[dict]):
             post_link=e.get("post_link", ""),
             subreddit=e.get("subreddit", ""),
             comment_link=e.get("comment_link", ""),
+            group_link=e.get("group_link", ""),
         )
 
 
